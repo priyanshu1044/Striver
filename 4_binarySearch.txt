@@ -310,18 +310,23 @@ Count occurrences of a number in a sorted array with duplicates
 ** Optimal Approach: TC: O(logn) -- SC: O(1)
 
     int search(vector<int>& nums, int target) {
-        int low=0, high=nums.size()-1;
+        int n=nums.size();
+        int low=0,high=n-1,mid;
+
         while(low<=high){
-            int mid=low+(high-low)/2;
+            mid=low+(high-low)/2;
             if(nums[mid]==target){
                 return mid;
             }
+            // check that left part is sorted or not
             if(nums[low]<=nums[mid]){
+                // check that target is lies in that part or not
                 if(nums[low]<=target && target<=nums[mid]){
                     high=mid-1;
                 }else{
                     low=mid+1;
                 }
+            // check that right part is sorted or not
             }else{
                 if(nums[mid]<=target && target<=nums[high]){
                     low=mid+1;
