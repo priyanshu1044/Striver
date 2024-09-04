@@ -135,8 +135,124 @@ pair<int, int> getFloorAndCeil(vector<int> &a, int n, int x) {
     return {a[floorAns], a[ceilAns]};
 }
 ===============================================================
+Find First and Last Position of Element in Sorted Array
+
+** Brute Force: TC: O(n) -- SC: O(1)
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n=nums.size();
+        int firstPosition=-1;
+        int lastPosition=-1;
+        for(int i=0;i<n;i++){
+            if(nums[i]==target){
+                if(firstPosition==-1) firstPosition=i;
+                lastPosition = i;
+            }
+        }
+        return {firstPosition,lastPosition};
+    }
+
+// // Better Solution
+// // using lowerbound upperbound
+// // lower bound= arr[i]>=x
+// // upper bound= arr[i]>x
+    int lowerbound(vector<int>& nums, int n, int target){
+        int low=0,high=n-1,ans=n;
+        
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            
+            if(nums[mid]>=target){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+    int upperbound(vector<int>& nums, int n, int target){
+        int low=0,high=n-1,ans=n;
+        
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            
+            if(nums[mid]>target){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n=nums.size();
+        int lb=lowerbound(nums,n,target);
+        int ub=upperbound(nums,n,target);
+        if(lb>=n||nums[lb]!=target) {
+            return {-1,-1};
+        }
+        return {lb,ub-1};
+    }
+
 
 ===============================================================
+
+Count occurrences of a number in a sorted array with duplicates
+
+** Brute Force: TC: O(n) -- SC: O(1)
+    int count(vector<int>& nums, int target) {
+        int n=nums.size();
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(nums[i]==target){
+                count++;
+            }
+        }
+        return count;
+    }
+
+** Better Solution: TC: O(logn) -- SC: O(1)
+    int lowerbound(vector<int>& nums, int n, int target){
+        int low=0,high=n-1,ans=n;
+        
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            
+            if(nums[mid]>=target){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+    int upperbound(vector<int>& nums, int n, int target){
+        int low=0,high=n-1,ans=n;
+        
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            
+            if(nums[mid]>target){
+                ans=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+    int count(vector<int>& nums, int target) {
+        int n=nums.size();
+        int lb=lowerbound(nums,n,target);
+        int ub=upperbound(nums,n,target);
+        return ub-lb;
+    }
 
 ===============================================================
 33. Search in Rotated Sorted Array
@@ -193,10 +309,49 @@ pair<int, int> getFloorAndCeil(vector<int> &a, int n, int x) {
 
 ** Optimal Approach: TC: O(logn) -- SC: O(1)
 
-
+    int search(vector<int>& nums, int target) {
+        int low=0, high=nums.size()-1;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(nums[mid]==target){
+                return mid;
+            }
+            if(nums[low]<=nums[mid]){
+                if(nums[low]<=target && target<=nums[mid]){
+                    high=mid-1;
+                }else{
+                    low=mid+1;
+                }
+            }else{
+                if(nums[mid]<=target && target<=nums[high]){
+                    low=mid+1;
+                }else{
+                    high=mid-1;
+                }
+            }
+        }
+        return -1;
+    }
 
 
 ===============================================================
+	
+Search in Rotated Sorted Array II
+
+** Brute Force: TC: O(n) -- SC: O(1)
+
+    bool search(vector<int>& nums, int target) {
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==target){
+                return true;
+            }
+        }
+        return false;
+    }
+
+** Better Approach: TC: O(2* logn) -- SC: O(1)
+
+
 ===============================================================
 ===============================================================
 ===============================================================
