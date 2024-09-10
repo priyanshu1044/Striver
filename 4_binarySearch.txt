@@ -358,5 +358,80 @@ Search in Rotated Sorted Array II
 
 
 ===============================================================
+
+===============================================================
+
+===============================================================
+
+===============================================================
+
+===============================================================
+	
+Find square root of a number in log n
+
+** Brute Force: TC: O(n) -- SC: O(1)
+    
+class Solution {
+  public:
+    long long int floorSqrt(long long int n) {
+        // Your code goes here
+        int ans=-1;
+        for(int i=0;i<=n;i++){
+            if(i*i<=n){
+                ans=i;
+            }else{
+                break;
+            }
+        }
+        return ans;
+    }
+};
+
+** Better Approach: TC: O(logn) -- SC: O(1)
+
+class Solution {
+  public:
+    long long int floorSqrt(long long int n) {
+        // Your code goes here
+        long long int low=1,high=n,mid,ans=1;
+        while(low<=high){
+            mid=(high+low)/2;
+            
+            if(mid*mid<=n){
+                ans=mid;
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        
+        return ans;
+    }
+};
+===============================================================
+
+Find the Nth root of a number using binary search
+
+** Brute Force: TC: O(n root(n)) -- SC: O(1)
+class Solution{
+	public:
+	int NthRoot(int n, int m)
+	{
+	    for(int i=1;i<= m;i++){
+	        if(pow(i,n)==m){
+	            return i;
+	        }else if(pow(i,n)>m){
+	            break;
+	        }
+	    }
+	    return -1;
+	}  
+};
+
+**  
+===============================================================
+===============================================================
+===============================================================
+===============================================================
 ===============================================================
 ===============================================================
